@@ -1,5 +1,6 @@
 from apiclient import APIClient, endpoint, paginated, retry_request
 from apiclient import NoAuthentication,JsonResponseHandler,JsonRequestFormatter
+import requests
 
 # Extend the client for your API integration.
 class DogClient(APIClient):
@@ -189,6 +190,52 @@ class DogClient(APIClient):
         url = self.endpoint.zone.format(id=id)
         return self.delete(url)
 
+    #file_transfer
+    #files dict {LocalFilePath:RemoteFilePath,...}
+    def send_file(self, id: str, files: dict) -> str:
+        url = self.endpoint.file_transfer.format(id=id)
+        files_to_send = []
+        for remote_file_path, local_file_path in files.items():
+                files_to_send.append(
+                        ('file', (remote_file_path, open(local_file_path, 'rb'), 'application/octet-stream'))
+                        )
+        body, content_type = requests.models.RequestEncodingMixin._encode_files(files_to_send, {})
+
+        # this way you ensure having the same boundary defined in
+        # the multipart/form-data contetn-type header
+        # the form-data
+
+        data = body
+        headers = {
+            "Content-Type": content_type
+        }
+        response = requests.post(
+            url,
+            data=data,
+            headers=headers
+        )
+        return response.text
+
+    #file="/etc/hosts"
+    def fetch_file(self, id: str, file: str) -> bytes:
+        url = self.endpoint.file_transfer.format(id=id)
+        payload = {'path': file}
+
+        response = requests.get(url, params=payload)
+        return response.content
+
+    def delete_file(self, id: str, file: str) -> str:
+        url = self.endpoint.file_transfer.format(id=id)
+        payload = {'path': file}
+
+        response = requests.delete(url, params=payload)
+        return response.text
+
+    def exec_command(self, id: str, json: dict) -> dict:
+        url = self.endpoint.file_transfer.format(id=id)
+        response = self.post(url, data=json)
+        return response
+
     class Endpoint:
         externals = "externals"
         external = "external/{id}"
@@ -211,3 +258,4 @@ class DogClient(APIClient):
         zones = "zones"
         zone = "zone/{id}"
         zone_without_id = "zone"
+        file_transfer = "file_transfer/{id}"

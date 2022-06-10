@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #from api import get_client
-from api import DogClient
+from dog.api import DogClient
 import sys, os
 import json
 import copy
 from pprint import pprint
 
-client = DogClient( base_url="http://dog-ubuntu-server.lxd:7070/api")
+client = DogClient( base_url="http://dog-ubuntu-server.lxd:7070/api/V2")
 groups = { group.get("id"):group.get("name") for group in client.get_all_groups()}
 zones = { zone.get("id"):zone.get("name") for zone in client.get_all_zones()}
 
@@ -48,6 +48,9 @@ def update_profile(id):
                     new_rule_needed = True
             external_rule = copy.copy(rule)
             external_rule["environment"] = OTHER_ENV
+            #if rule.get("environment") == "":
+            #    rule["environment"] = "local"
+            #    new_rules_count+=1
             if rule.get("environment"): #don't create a new rule if already an exteral rule
                 pass
             elif new_rule_needed == False:
@@ -55,12 +58,14 @@ def update_profile(id):
             else:
                 if group_type == "ROLE":
                     group_name = groups.get(group)
+                    rule["environment"] = "local"
                     external_rule["group"] = group_name
                     external_rule["comment"] = f"#{OTHER_ENV}_copy " + rule_comment
                     new_rules[direction].append(external_rule)
                     new_rules_count+=1
                 elif group_type == "ZONE":
                     group_name = zones.get(group)
+                    rule["environment"] = "local"
                     external_rule["group"] = group_name
                     external_rule["comment"] = f"#{OTHER_ENV}_copy " + rule_comment
                     new_rules[direction].append(external_rule)
