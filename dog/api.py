@@ -1,17 +1,23 @@
 from apiclient import APIClient, endpoint, paginated, retry_request
-from apiclient import NoAuthentication,JsonResponseHandler,JsonRequestFormatter
+from apiclient import HeaderAuthentication,JsonResponseHandler,JsonRequestFormatter
 import requests
 
 # Extend the client for your API integration.
 class DogClient(APIClient):
     def __init__(self, 
                  base_url,
-                 authentication_method=NoAuthentication()
+                 apikey=""
                  ):
+        authentication_method=HeaderAuthentication(
+            token=apikey,
+            parameter="apikey",
+            scheme=None
+            )
         super().__init__(authentication_method=authentication_method,
                        response_handler=JsonResponseHandler,
                        request_formatter=JsonRequestFormatter)
         self.authentication_method = authentication_method
+        self.apikey = apikey
         self.base_url = base_url
         self.endpoint = endpoint(self.Endpoint, base_url=self.base_url)
 
@@ -195,7 +201,7 @@ class DogClient(APIClient):
     def send_file(self, id: str, files: dict) -> str:
         url = self.endpoint.file_transfer.format(id=id)
         files_to_send = []
-        for remote_file_path, local_file_path in files.items():
+        for local_file_path, remote_file_path in files.items():
                 files_to_send.append(
                         ('file', (remote_file_path, open(local_file_path, 'rb'), 'application/octet-stream'))
                         )
@@ -207,7 +213,8 @@ class DogClient(APIClient):
 
         data = body
         headers = {
-            "Content-Type": content_type
+            "Content-Type": content_type,
+            "apikey": self.apikey
         }
         response = requests.post(
             url,
