@@ -1,0 +1,18 @@
+Metadata-Version: 2.1
+Name: dog-api-python
+Version: 0.0.1
+Summary: dog python api client
+Home-page: https://github.com/relaypro-open/dog_api_python
+Author: Drew Gulino
+Author-email: dgulino@relaypro.com
+Project-URL: Bug Tracker, https://github.com/relaypro-open/dog_api_python/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+# dog_api_python
+
+A python client for dog_trainer API: [dog_trainer](https://github.com/relaypro-open/dog_trainer)

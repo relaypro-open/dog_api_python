@@ -1,0 +1,10 @@
+LICENSE
+README.md
+pyproject.toml
+setup.cfg
+src/dog/__init__.py
+src/dog/api.py
+src/dog_api_python.egg-info/PKG-INFO
+src/dog_api_python.egg-info/SOURCES.txt
+src/dog_api_python.egg-info/dependency_links.txt
+src/dog_api_python.egg-info/top_level.txt
