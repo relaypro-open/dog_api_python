@@ -198,7 +198,10 @@ class DogClient(APIClient):
 
     #file_transfer
     #files dict {LocalFilePath:RemoteFilePath,...}
-    def send_file(self, id: str, files: dict) -> str:
+    def send_file(self, files: dict, id = None, name = None) -> str:
+        if id == None and name != None:
+            host = self.get_host_by_name(name)
+            id = host.get("hostkey")
         url = self.endpoint.file_transfer.format(id=id)
         files_to_send = []
         for local_file_path, remote_file_path in files.items():
@@ -224,21 +227,30 @@ class DogClient(APIClient):
         return response.text
 
     #file="/etc/hosts"
-    def fetch_file(self, id: str, file: str) -> bytes:
+    def fetch_file(self, file: str, id = None, name = None) -> bytes:
+        if id == None and name != None:
+            host = self.get_host_by_name(name)
+            id = host.get("hostkey")
         url = self.endpoint.file_transfer.format(id=id)
         payload = {'path': file}
 
         response = requests.get(url, params=payload)
         return response.content
 
-    def delete_file(self, id: str, file: str) -> str:
+    def delete_file(self, file: str, id = None, name = None) -> str:
+        if id == None and name != None:
+            host = self.get_host_by_name(name)
+            id = host.get("hostkey")
         url = self.endpoint.file_transfer.format(id=id)
         payload = {'path': file}
 
         response = requests.delete(url, params=payload)
         return response.text
 
-    def exec_command(self, id: str, json: dict) -> dict:
+    def exec_command(self, json: dict, id = None, name = None) -> dict:
+        if id == None and name != None:
+            host = self.get_host_by_name(name)
+            id = host.get("hostkey")
         url = self.endpoint.file_transfer.format(id=id)
         response = self.post(url, data=json)
         return response
@@ -265,4 +277,5 @@ class DogClient(APIClient):
         zones = "zones"
         zone = "zone/{id}"
         zone_without_id = "zone"
+        file_transfer_without_id = "file_transfer"
         file_transfer = "file_transfer/{id}"
