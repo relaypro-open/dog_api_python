@@ -107,6 +107,10 @@ class DogClient(APIClient):
     def get_host_by_name(self, name: str) -> dict:
         url = self.endpoint.host_without_id
         return self.get(url, params = {"name": name})
+    
+    def get_host_by_hostkey(self, hostkey: str) -> dict:
+        url = self.endpoint.host_without_id
+        return self.get(url, params = {"hostkey": hostkey})
 
     def create_host(self, json) -> dict:
         url = self.endpoint.host
