@@ -18,8 +18,7 @@ class DogClient(APIClient):
                        request_formatter=JsonRequestFormatter)
         self.authentication_method = authentication_method
         self.apikey = apikey
-        self.base_url = base_url
-        self.endpoint = endpoint(self.Endpoint, base_url=self.base_url)
+        self.endpoint = self.Endpoint(base_url=base_url)
 
     #external
     def get_all_externals(self) -> dict:
@@ -247,26 +246,29 @@ class DogClient(APIClient):
         response = self.post(url, data=json)
         return response
 
-    class Endpoint:
-        externals = "externals"
-        external = "external/{id}"
-        external_without_id = "external"
-        hosts = "hosts"
-        host = "host/{id}"
-        host_without_id = "host"
-        groups = "groups"
-        group = "group/{id}"
-        group_without_id = "group"
-        links = "links"
-        link = "link/{id}"
-        link_without_id = "link"
-        profiles = "profiles"
-        profile = "profile/{id}"
-        profile_without_id = "profile"
-        services = "services"
-        service = "service/{id}"
-        service_without_id = "service"
-        zones = "zones"
-        zone = "zone/{id}"
-        zone_without_id = "zone"
-        file_transfer = "file_transfer/{id}"
+    class Endpoint():
+        def __init__(self,base_url):
+            self.base_url = base_url.rstrip("/") + "/"
+
+            self.externals = self.base_url + "externals"
+            self.external = self.base_url + "external/{id}"
+            self.external_without_id = self.base_url + "external"
+            self.hosts = self.base_url + "hosts"
+            self.host = self.base_url + "host/{id}"
+            self.host_without_id = self.base_url + "host"
+            self.groups = self.base_url + "groups"
+            self.group = self.base_url + "group/{id}"
+            self.group_without_id = self.base_url + "group"
+            self.links = self.base_url + "links"
+            self.link = "self.base_url + link/{id}"
+            self.link_without_id = self.base_url + "link"
+            self.profiles = self.base_url + "profiles"
+            self.profile = self.base_url + "profile/{id}"
+            self.profile_without_id = self.base_url + "profile"
+            self.services = self.base_url + "services"
+            self.service = self.base_url + "service/{id}"
+            self.service_without_id = self.base_url + "service"
+            self.zones = self.base_url + "zones"
+            self.zone = self.base_url + "zone/{id}"
+            self.zone_without_id = self.base_url + "zone"
+            self.file_transfer = self.base_url + "file_transfer/{id}"
