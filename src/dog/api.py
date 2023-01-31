@@ -19,6 +19,7 @@ class DogClient(APIClient):
         self.authentication_method = authentication_method
         self.apikey = apikey
         self.endpoint = self.Endpoint(base_url=base_url)
+        self.set_request_timeout(30.0)
 
     #external
     def get_all_externals(self) -> dict:
