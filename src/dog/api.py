@@ -9,9 +9,7 @@ class DogClient(APIClient):
                  apikey=""
                  ):
         authentication_method=HeaderAuthentication(
-            token=apikey,
-            parameter="apikey",
-            scheme=None
+            token=apikey
             )
         super().__init__(authentication_method=authentication_method,
                        response_handler=JsonResponseHandler,
