@@ -6,16 +6,16 @@ import requests
 class DogClient(APIClient):
     def __init__(self, 
                  base_url,
-                 apikey=""
+                 apitoken=""
                  ):
         authentication_method=HeaderAuthentication(
-            token=apikey
+            token=apitoken
             )
         super().__init__(authentication_method=authentication_method,
                        response_handler=JsonResponseHandler,
                        request_formatter=JsonRequestFormatter)
         self.authentication_method = authentication_method
-        self.apikey = apikey
+        self.apitoken = apitoken
         self.endpoint = self.Endpoint(base_url=base_url)
         self.set_request_timeout(30.0)
 
@@ -216,7 +216,7 @@ class DogClient(APIClient):
         data = body
         headers = {
             "Content-Type": content_type,
-            "apikey": self.apikey
+            "apitoken": self.apitoken
         }
         response = requests.post(
             url,
