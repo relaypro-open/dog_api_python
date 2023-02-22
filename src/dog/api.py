@@ -198,6 +198,31 @@ class DogClient(APIClient):
         url = self.endpoint.zone.format(id=id)
         return self.delete(url)
 
+    #rule
+    def get_all_rules(self) -> dict:
+        return self.get(self.endpoint.rules)
+
+    @retry_request
+    def get_rule(self, id: str) -> dict:
+        url = self.endpoint.rule.format(id=id)
+        return self.get(url)
+
+    def get_rule_by_name(self, name: str) -> dict:
+        url = self.endpoint.rule_without_id
+        return self.get(url, params = {"name": name})
+
+    def create_rule(self, json) -> dict:
+        url = self.endpoint.rule
+        return self.post(url, data=json)
+
+    def update_rule(self, id: str, json) -> dict:
+        url = self.endpoint.rule.format(id=id)
+        return self.put(url, data=json)
+
+    def delete_rule(self, id: str) -> dict:
+        url = self.endpoint.rule.format(id=id)
+        return self.delete(url)
+
     #file_transfer
     #files dict {LocalFilePath:RemoteFilePath,...}
     def send_file(self, id: str, files: dict) -> str:
@@ -271,3 +296,6 @@ class DogClient(APIClient):
             self.zone = self.base_url + "zone/{id}"
             self.zone_without_id = self.base_url + "zone"
             self.file_transfer = self.base_url + "file_transfer/{id}"
+            self.rules = self.base_url + "rules"
+            self.rule = self.base_url + "rule/{id}"
+            self.rule_without_id = self.base_url + "rule"
