@@ -198,29 +198,29 @@ class DogClient(APIClient):
         url = self.endpoint.zone.format(id=id)
         return self.delete(url)
 
-    #rule
-    def get_all_rules(self) -> dict:
-        return self.get(self.endpoint.rules)
+    #ruleset
+    def get_all_rulesets(self) -> dict:
+        return self.get(self.endpoint.rulesets)
 
     @retry_request
-    def get_rule(self, id: str) -> dict:
-        url = self.endpoint.rule.format(id=id)
+    def get_ruleset(self, id: str) -> dict:
+        url = self.endpoint.ruleset.format(id=id)
         return self.get(url)
 
-    def get_rule_by_name(self, name: str) -> dict:
-        url = self.endpoint.rule_without_id
+    def get_ruleset_by_name(self, name: str) -> dict:
+        url = self.endpoint.ruleset_without_id
         return self.get(url, params = {"name": name})
 
-    def create_rule(self, json) -> dict:
-        url = self.endpoint.rule
+    def create_ruleset(self, json) -> dict:
+        url = self.endpoint.ruleset
         return self.post(url, data=json)
 
-    def update_rule(self, id: str, json) -> dict:
-        url = self.endpoint.rule.format(id=id)
+    def update_ruleset(self, id: str, json) -> dict:
+        url = self.endpoint.ruleset.format(id=id)
         return self.put(url, data=json)
 
-    def delete_rule(self, id: str) -> dict:
-        url = self.endpoint.rule.format(id=id)
+    def delete_ruleset(self, id: str) -> dict:
+        url = self.endpoint.ruleset.format(id=id)
         return self.delete(url)
 
     #file_transfer
@@ -296,6 +296,6 @@ class DogClient(APIClient):
             self.zone = self.base_url + "zone/{id}"
             self.zone_without_id = self.base_url + "zone"
             self.file_transfer = self.base_url + "file_transfer/{id}"
-            self.rules = self.base_url + "rules"
-            self.rule = self.base_url + "rule/{id}"
-            self.rule_without_id = self.base_url + "rule"
+            self.rulesets = self.base_url + "rulesets"
+            self.ruleset = self.base_url + "ruleset/{id}"
+            self.ruleset_without_id = self.base_url + "ruleset"
