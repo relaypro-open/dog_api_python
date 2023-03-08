@@ -241,7 +241,7 @@ class DogClient(APIClient):
         data = body
         headers = {
             "Content-Type": content_type,
-            "apitoken": self.apitoken
+            'Authorization': 'Bearer ' + self.apitoken
         }
         response = requests.post(
             url,
