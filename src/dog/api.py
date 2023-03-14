@@ -1,25 +1,28 @@
-from apiclient import APIClient, endpoint, paginated, retry_request
-from apiclient import HeaderAuthentication,JsonResponseHandler,JsonRequestFormatter
+from apiclient import APIClient, retry_request
+from apiclient import HeaderAuthentication
+from apiclient import JsonResponseHandler
+from apiclient import JsonRequestFormatter
 import requests
+
 
 # Extend the client for your API integration.
 class DogClient(APIClient):
-    def __init__(self, 
+    def __init__(self,
                  base_url,
                  apitoken=""
                  ):
-        authentication_method=HeaderAuthentication(
+        authentication_method = HeaderAuthentication(
             token=apitoken
             )
         super().__init__(authentication_method=authentication_method,
-                       response_handler=JsonResponseHandler,
-                       request_formatter=JsonRequestFormatter)
+                         response_handler=JsonResponseHandler,
+                         request_formatter=JsonRequestFormatter)
         self.authentication_method = authentication_method
         self.apitoken = apitoken
         self.endpoint = self.Endpoint(base_url=base_url)
         self.set_request_timeout(30.0)
 
-    #external
+    # external
     def get_all_externals(self) -> dict:
         return self.get(self.endpoint.externals)
 
@@ -30,7 +33,7 @@ class DogClient(APIClient):
 
     def get_external_by_name(self, name: str) -> dict:
         url = self.endpoint.external_without_id
-        return self.get(url, params = {"name": name})
+        return self.get(url, params={"name": name})
 
     def create_external(self, json) -> dict:
         url = self.endpoint.external
@@ -43,7 +46,8 @@ class DogClient(APIClient):
     def delete_external(self, id: str) -> dict:
         url = self.endpoint.external.format(id=id)
         return self.delete(url)
-    #group
+
+    # group
     def get_all_groups(self) -> dict:
         return self.get(self.endpoint.groups)
 
@@ -54,7 +58,7 @@ class DogClient(APIClient):
 
     def get_group_by_name(self, name: str) -> dict:
         url = self.endpoint.group_without_id
-        return self.get(url, params = {"name": name})
+        return self.get(url, params={"name": name})
 
     def create_group(self, json) -> dict:
         url = self.endpoint.group
@@ -68,7 +72,7 @@ class DogClient(APIClient):
         url = self.endpoint.group.format(id=id)
         return self.delete(url)
 
-    #link
+    # link
     def get_all_links(self) -> dict:
         return self.get(self.endpoint.links)
 
@@ -79,7 +83,7 @@ class DogClient(APIClient):
 
     def get_link_by_name(self, name: str) -> dict:
         url = self.endpoint.link_without_id
-        return self.get(url, params = {"name": name})
+        return self.get(url, params={"name": name})
 
     def create_link(self, json) -> dict:
         url = self.endpoint.link
@@ -93,7 +97,7 @@ class DogClient(APIClient):
         url = self.endpoint.link.format(id=id)
         return self.delete(url)
 
-    #host
+    # host
     def get_all_hosts(self) -> dict:
         return self.get(self.endpoint.hosts)
 
@@ -104,11 +108,11 @@ class DogClient(APIClient):
 
     def get_host_by_name(self, name: str) -> dict:
         url = self.endpoint.host_without_id
-        return self.get(url, params = {"name": name})
-    
+        return self.get(url, params={"name": name})
+
     def get_host_by_hostkey(self, hostkey: str) -> dict:
         url = self.endpoint.host_without_id
-        return self.get(url, params = {"hostkey": hostkey})
+        return self.get(url, params={"hostkey": hostkey})
 
     def create_host(self, json) -> dict:
         url = self.endpoint.host
@@ -122,8 +126,7 @@ class DogClient(APIClient):
         url = self.endpoint.host.format(id=id)
         return self.delete(url)
 
-
-    #profiles
+    # profiles
     def get_all_profiles(self) -> dict:
         return self.get(self.endpoint.profiles)
 
@@ -134,7 +137,7 @@ class DogClient(APIClient):
 
     def get_profile_by_name(self, name: str) -> dict:
         url = self.endpoint.profile_without_id
-        return self.get(url, params = {"name": name})
+        return self.get(url, params={"name": name})
 
     def create_profile(self, json) -> dict:
         url = self.endpoint.profile
@@ -148,7 +151,7 @@ class DogClient(APIClient):
         url = self.endpoint.profile.format(id=id)
         return self.delete(url)
 
-    #service
+    # service
     def get_all_services(self) -> dict:
         return self.get(self.endpoint.services)
 
@@ -159,7 +162,7 @@ class DogClient(APIClient):
 
     def get_service_by_name(self, name: str) -> dict:
         url = self.endpoint.service_without_id
-        return self.get(url, params = {"name": name})
+        return self.get(url, params={"name": name})
 
     def create_service(self, json) -> dict:
         url = self.endpoint.service
@@ -172,8 +175,8 @@ class DogClient(APIClient):
     def delete_service(self, id: str) -> dict:
         url = self.endpoint.service.format(id=id)
         return self.delete(url)
-    
-    #zone
+
+    # zone
     def get_all_zones(self) -> dict:
         return self.get(self.endpoint.zones)
 
@@ -184,7 +187,7 @@ class DogClient(APIClient):
 
     def get_zone_by_name(self, name: str) -> dict:
         url = self.endpoint.zone_without_id
-        return self.get(url, params = {"name": name})
+        return self.get(url, params={"name": name})
 
     def create_zone(self, json) -> dict:
         url = self.endpoint.zone
@@ -198,7 +201,7 @@ class DogClient(APIClient):
         url = self.endpoint.zone.format(id=id)
         return self.delete(url)
 
-    #ruleset
+    # ruleset
     def get_all_rulesets(self) -> dict:
         return self.get(self.endpoint.rulesets)
 
@@ -209,7 +212,7 @@ class DogClient(APIClient):
 
     def get_ruleset_by_name(self, name: str) -> dict:
         url = self.endpoint.ruleset_without_id
-        return self.get(url, params = {"name": name})
+        return self.get(url, params={"name": name})
 
     def create_ruleset(self, json) -> dict:
         url = self.endpoint.ruleset
@@ -223,15 +226,41 @@ class DogClient(APIClient):
         url = self.endpoint.ruleset.format(id=id)
         return self.delete(url)
 
-    #file_transfer
-    #files dict {LocalFilePath:RemoteFilePath,...}
+    # inventory
+    def get_all_inventories(self) -> dict:
+        return self.get(self.endpoint.inventories)
+
+    @retry_request
+    def get_inventory(self, id: str) -> dict:
+        url = self.endpoint.inventory.format(id=id)
+        return self.get(url)
+
+    def get_inventory_by_name(self, name: str) -> dict:
+        url = self.endpoint.inventory_without_id
+        return self.get(url, params={"name": name})
+
+    def create_inventory(self, json) -> dict:
+        url = self.endpoint.inventory
+        return self.post(url, data=json)
+
+    def update_inventory(self, id: str, json) -> dict:
+        url = self.endpoint.inventory.format(id=id)
+        return self.put(url, data=json)
+
+    def delete_inventory(self, id: str) -> dict:
+        url = self.endpoint.inventory.format(id=id)
+        return self.delete(url)
+
+    # file_transfer
+    # files dict {LocalFilePath:RemoteFilePath,...}
     def send_file(self, id: str, files: dict) -> str:
         url = self.endpoint.file_transfer.format(id=id)
         files_to_send = []
         for local_file_path, remote_file_path in files.items():
-                files_to_send.append(
-                        ('file', (remote_file_path, open(local_file_path, 'rb'), 'application/octet-stream'))
-                        )
+            files_to_send.append(
+                ('file', (remote_file_path, open(local_file_path, 'rb'),
+                          'application/octet-stream'))
+                )
         body, content_type = requests.models.RequestEncodingMixin._encode_files(files_to_send, {})
 
         # this way you ensure having the same boundary defined in
@@ -250,7 +279,7 @@ class DogClient(APIClient):
         )
         return response.text
 
-    #file="/etc/hosts"
+    # file="/etc/hosts"
     def fetch_file(self, id: str, file: str) -> bytes:
         url = self.endpoint.file_transfer.format(id=id)
         payload = {'path': file}
@@ -271,7 +300,7 @@ class DogClient(APIClient):
         return response
 
     class Endpoint():
-        def __init__(self,base_url):
+        def __init__(self, base_url):
             self.base_url = base_url.rstrip("/") + "/"
 
             self.externals = self.base_url + "externals"
@@ -299,3 +328,6 @@ class DogClient(APIClient):
             self.rulesets = self.base_url + "rulesets"
             self.ruleset = self.base_url + "ruleset/{id}"
             self.ruleset_without_id = self.base_url + "ruleset"
+            self.inventories = self.base_url + "inventories"
+            self.inventory = self.base_url + "inventory/{id}"
+            self.inventory_without_id = self.base_url + "inventory"
