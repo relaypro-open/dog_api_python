@@ -226,29 +226,29 @@ class DogClient(APIClient):
         url = self.endpoint.ruleset.format(id=id)
         return self.delete(url)
 
-    # inventory
-    def get_all_inventories(self) -> dict:
-        return self.get(self.endpoint.inventories)
+    # fact
+    def get_all_facts(self) -> dict:
+        return self.get(self.endpoint.facts)
 
     @retry_request
-    def get_inventory(self, id: str) -> dict:
-        url = self.endpoint.inventory.format(id=id)
+    def get_fact(self, id: str) -> dict:
+        url = self.endpoint.fact.format(id=id)
         return self.get(url)
 
-    def get_inventory_by_name(self, name: str) -> dict:
-        url = self.endpoint.inventory_without_id
+    def get_fact_by_name(self, name: str) -> dict:
+        url = self.endpoint.fact_without_id
         return self.get(url, params={"name": name})
 
-    def create_inventory(self, json) -> dict:
-        url = self.endpoint.inventory
+    def create_fact(self, json) -> dict:
+        url = self.endpoint.fact
         return self.post(url, data=json)
 
-    def update_inventory(self, id: str, json) -> dict:
-        url = self.endpoint.inventory.format(id=id)
+    def update_fact(self, id: str, json) -> dict:
+        url = self.endpoint.fact.format(id=id)
         return self.put(url, data=json)
 
-    def delete_inventory(self, id: str) -> dict:
-        url = self.endpoint.inventory.format(id=id)
+    def delete_fact(self, id: str) -> dict:
+        url = self.endpoint.fact.format(id=id)
         return self.delete(url)
 
     # file_transfer
@@ -328,6 +328,6 @@ class DogClient(APIClient):
             self.rulesets = self.base_url + "rulesets"
             self.ruleset = self.base_url + "ruleset/{id}"
             self.ruleset_without_id = self.base_url + "ruleset"
-            self.inventories = self.base_url + "inventories"
-            self.inventory = self.base_url + "inventory/{id}"
-            self.inventory_without_id = self.base_url + "inventory"
+            self.facts = self.base_url + "facts"
+            self.fact = self.base_url + "fact/{id}"
+            self.fact_without_id = self.base_url + "fact"
