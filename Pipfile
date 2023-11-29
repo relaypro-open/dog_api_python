@@ -4,11 +4,11 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-certifi = ">=2022.12.07"
+certifi = ">=2023.7.22"
 api-client = {git = "https://github.com/Phonebooth/api-client"}
 
 [dev-packages]
-certifi = ">=2022.12.07"
+certifi = ">=2023.7.22"
 
 [requires]
 python_version = "3.9"
