@@ -2,6 +2,9 @@ from apiclient import APIClient, retry_request
 from apiclient import HeaderAuthentication
 from apiclient import JsonResponseHandler
 from apiclient import JsonRequestFormatter
+from apiclient.error_handlers import BaseErrorHandler
+from apiclient import exceptions
+from apiclient.response import Response
 import requests
 
 
@@ -270,7 +273,8 @@ class DogClient(APIClient):
         data = body
         headers = {
             "Content-Type": content_type,
-            'Authorization': 'Bearer ' + self.apitoken
+            'Authorization': 'Bearer ' + self.apitoken,
+            'Accept-Encoding': 'identity, deflate, compress, gzip'
         }
         response = requests.post(
             url,
@@ -295,9 +299,12 @@ class DogClient(APIClient):
         return response.text
 
     def exec_command(self, id: str, json: dict) -> dict:
-        url = self.endpoint.file_transfer.format(id=id)
-        response = self.post(url, data=json)
-        return response
+        try:
+            url = self.endpoint.file_transfer.format(id=id)
+            response = self.post(url, data=json)
+            return response
+        except ExecErrorHandler:
+            return []
 
     class Endpoint():
         def __init__(self, base_url):
@@ -331,3 +338,14 @@ class DogClient(APIClient):
             self.facts = self.base_url + "facts"
             self.fact = self.base_url + "fact/{id}"
             self.fact_without_id = self.base_url + "fact"
+
+
+class ExecErrorHandler(BaseErrorHandler):
+    @staticmethod
+    def get_exception(response: Response) -> exceptions.APIRequestError:
+        """Parses client errors to extract bad request reasons."""
+        if 400 <= response.get_status_code() < 500:
+            # json = response.get_json()
+            # return exceptions.ClientError(json["error"]["reason"])
+            return response
+        return exceptions.APIRequestError("something went wrong")
