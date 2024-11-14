@@ -1,4 +1,4 @@
-api-client==1.3.1
+-e git+https://github.com/Phonebooth/api-client.git@bedde4137ea6c94158eab41888a7ce608a2c952a#egg=api_client
 certifi==2023.7.22
 charset-normalizer==2.0.12
 idna==3.3
