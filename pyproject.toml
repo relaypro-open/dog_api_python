@@ -17,7 +17,7 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-"packaging @ git+https://github.com/Phonebooth/api-client.git", "certifi==2023.7.22", "charset-normalizer==2.0.12", "idna==3.3", "requests==2.31.0", "tenacity==8.0.1", "urllib3==1.26.18"
+"apiclient @ git+https://github.com/Phonebooth/api-client.git", "certifi==2023.7.22", "charset-normalizer==2.0.12", "idna==3.3", "requests==2.31.0", "tenacity==8.0.1", "urllib3==1.26.18"
 ]
 
 [project.urls]
