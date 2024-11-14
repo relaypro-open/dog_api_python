@@ -1,3 +1,25 @@
 [build-system]
 requires = ["setuptools>=42"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "dog_api_python"
+version = "1.0.2"
+authors = [
+  { name="Drew Gulino", email="dgulino@relaypro.com" },
+]
+description = "dog python API client"
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: GNU GPL v3",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+"pip @ git+https://github.com/Phonebooth/api-client.git", "certifi==2023.7.22", "charset-normalizer==2.0.12", "idna==3.3", "requests==2.31.0", "tenacity==8.0.1", "urllib3==1.26.18"
+]
+
+[project.urls]
+Homepage = "https://github.com/relaypro-open/dog_api_python"
+Issues = "https://github.com/relaypro-open/dog_api_python/issues"
