@@ -103,6 +103,9 @@ class DogClient(APIClient):
     # host
     def get_all_hosts(self) -> dict:
         return self.get(self.endpoint.hosts)
+    
+    def get_all_active_hosts(self) -> dict:
+        return self.get(self.endpoint.hosts, params={"active":"true"})
 
     @retry_request
     def get_host(self, id: str) -> dict:
