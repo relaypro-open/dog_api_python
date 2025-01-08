@@ -12,7 +12,8 @@ import requests
 class DogClient(APIClient):
     def __init__(self,
                  base_url,
-                 apitoken=""
+                 apitoken="",
+                 request_timeout=300.0
                  ):
         authentication_method = HeaderAuthentication(
             token=apitoken
@@ -23,7 +24,7 @@ class DogClient(APIClient):
         self.authentication_method = authentication_method
         self.apitoken = apitoken
         self.endpoint = self.Endpoint(base_url=base_url)
-        self.set_request_timeout(300.0)
+        self.set_request_timeout(request_timeout)
 
     # external
     def get_all_externals(self) -> dict:

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "dog_api_python"
-version = "1.0.2"
+version = "1.0.3"
 authors = [
   { name="Drew Gulino", email="dgulino@relaypro.com" },
 ]
