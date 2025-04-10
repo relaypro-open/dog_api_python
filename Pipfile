@@ -5,7 +5,7 @@ name = "pypi"
 
 [packages]
 certifi = ">=2023.7.22"
-api-client = {git = "https://github.com/Phonebooth/api-client"}
+api-client = {ref = "v1.2.0", git = "https://github.com/Phonebooth/api-client"}
 
 [dev-packages]
 certifi = ">=2023.7.22"
