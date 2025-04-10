@@ -104,7 +104,7 @@ class DogClient(APIClient):
     # host
     def get_all_hosts(self) -> dict:
         return self.get(self.endpoint.hosts)
-    
+
     def get_all_active_hosts(self) -> dict:
         return self.get(self.endpoint.hosts, params={"active":"true"})
 
@@ -280,7 +280,8 @@ class DogClient(APIClient):
             'Authorization': 'Bearer ' + self.apitoken,
             'Accept-Encoding': 'identity, deflate, compress, gzip'
         }
-        response = requests.post(
+        session = self.get_session()
+        response = session.post(
             url,
             data=data,
             headers=headers
