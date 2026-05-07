@@ -9,6 +9,7 @@ api-client = {ref = "v1.2.0", git = "https://github.com/Phonebooth/api-client"}
 
 [dev-packages]
 certifi = ">=2023.7.22"
+build = "*"
 
 [requires]
 python_version = "3.10"
