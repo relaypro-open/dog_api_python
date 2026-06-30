@@ -292,15 +292,23 @@ class DogClient(APIClient):
     def fetch_file(self, id: str, file: str) -> bytes:
         url = self.endpoint.file_transfer.format(id=id)
         payload = {'path': file}
-
-        response = requests.get(url, params=payload)
+        headers = {
+            'Authorization': 'Bearer ' + self.apitoken,
+            'Accept-Encoding': 'identity, deflate, compress, gzip'
+        }
+        session = self.get_session()
+        response = session.get(url, params=payload, headers=headers)
         return response.content
 
     def delete_file(self, id: str, file: str) -> str:
         url = self.endpoint.file_transfer.format(id=id)
         payload = {'path': file}
-
-        response = requests.delete(url, params=payload)
+        headers = {
+            'Authorization': 'Bearer ' + self.apitoken,
+            'Accept-Encoding': 'identity, deflate, compress, gzip'
+        }
+        session = self.get_session()
+        response = session.delete(url, params=payload, headers=headers)
         return response.text
 
     def exec_command(self, id: str, json: dict) -> dict:
@@ -325,7 +333,7 @@ class DogClient(APIClient):
             self.group = self.base_url + "group/{id}"
             self.group_without_id = self.base_url + "group"
             self.links = self.base_url + "links"
-            self.link = "self.base_url + link/{id}"
+            self.link = self.base_url + "link/{id}"
             self.link_without_id = self.base_url + "link"
             self.profiles = self.base_url + "profiles"
             self.profile = self.base_url + "profile/{id}"
